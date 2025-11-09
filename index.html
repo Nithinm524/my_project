@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitality - Your Personal Health Tracker</title>
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5a623;
+            --success-color: #7ed321;
+            --danger-color: #d0021b;
+            --light-bg: #f4f7f6;
+            --dark-text: #333;
+            --light-text: #fff;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header --- */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #357ABD);
+            color: var(--light-text);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark-text);
+            font-weight: 600;
+        }
+
+        /* --- Dashboard Grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .progress-container {
+            background-color: var(--border-color);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), #5cb85c);
+            border-radius: 10px;
+            width: 0;
+            transition: width 0.6s ease;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+        }
+
+        /* --- Input Forms Section --- */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-card h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--dark-text);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-card label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-card input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-card input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        .form-card button {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--primary-color), #357ABD);
+            color: var(--light-text);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-card button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            background: #fff;
+            border-top: 1px solid var(--border-color);
+            color: #777;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid, .forms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Vitality</h1>
+            <p class="tagline">Track your way to a healthier you.</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="dashboard">
+                <h2 class="section-title">Today's Overview</h2>
+                <div class="stats-grid">
+                    <!-- Water Card -->
+                    <div class="stat-card">
+                        <div class="stat-icon">💧</div>
+                        <h3>Water Intake</h3>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="water-progress" style="width: 0%;"></div>
+                        </div>
+                        <p class="stat-value"><span id="water-intake">0</span> / <span id="water-goal">8</span> glasses</p>
+                    </div>
+
+                    <!-- Calories Card -->
+                    <div class="stat-card">
+                        <div class="stat-icon">🍎</div>
+                        <h3>Calories</h3>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="calories-progress" style="width: 0%;"></div>
+                        </div>
+                        <p class="stat-value"><span id="calories-intake">0</span> / <span id="calories-goal">2000</span> kcal</p>
+                    </div>
+
+                    <!-- Exercise Card -->
+                    <div class="stat-card">
+                        <div class="stat-icon">🏃‍♂️</div>
+                        <h3>Exercise</h3>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="exercise-progress" style="width: 0%;"></div>
+                        </div>
+                        <p class="stat-value"><span id="exercise-minutes">0</span> / <span id="exercise-goal">30</span> min</p>
+                    </div>
+
+                    <!-- Sleep Card -->
+                    <div class="stat-card">
+                        <div class="stat-icon">😴</div>
+                        <h3>Sleep</h3>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="sleep-progress" style="width: 0%;"></div>
+                        </div>
+                        <p class="stat-value"><span id="sleep-hours">0</span> / <span id="sleep-goal">8</span> hours</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input Forms Section -->
+            <section id="input-section" class="input-section">
+                <h2 class="section-title">Log Your Activity</h2>
+                <div class="forms-grid">
+                    <!-- Water Form -->
+                    <div class="form-card">
+                        <h3>Log Water</h3>
+                        <form id="water-form">
+                            <label for="water-amount">Glasses of Water</label>
+                            <input type="number" id="water-amount" min="1" max="20" value="1" required>
+                            <button type="submit">Add Water</button>
+                        </form>
+                    </div>
+
+                    <!-- Meal Form -->
+                    <div class="form-card">
+                        <h3>Log Meal</h3>
+                        <form id="meal-form">
+                            <label for="meal-name">Meal Name</label>
+                            <input type="text" id="meal-name" placeholder="e.g., Chicken Salad" required>
+                            <label for="meal-calories">Calories (kcal)</label>
+                            <input type="number" id="meal-calories" min="1" max="5000" required>
+                            <button type="submit">Add Meal</button>
+                        </form>
+                    </div>
+
+                    <!-- Exercise Form -->
+                    <div class="form-card">
+                        <h3>Log Exercise</h3>
+                        <form id="exercise-form">
+                            <label for="exercise-type">Exercise Type</label>
+                            <input type="text" id="exercise-type" placeholder="e.g., Running" required>
+                            <label for="exercise-duration">Duration (minutes)</label>
+                            <input type="number" id="exercise-duration" min="1" max="300" required>
+                            <button type="submit">Add Exercise</button>
+                        </form>
+                    </div>
+
+                    <!-- Sleep Form -->
+                    <div class="form-card">
+                        <h3>Log Sleep</h3>
+                        <form id="sleep-form">
+                            <label for="sleep-duration">Hours of Sleep</label>
+                            <input type="number" id="sleep-duration" min="0.5" max="24" step="0.5" required>
+                            <button type="submit">Log Sleep</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Vitality. Stay Healthy, Stay Happy.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Data Management ---
+            const defaultData = {
+                water: 0,
+                calories: 0,
+                exercise: 0,
+                sleep: 0,
+                lastLogDate: new Date().toDateString() // To reset data daily
+            };
+
+            // Load data from localStorage or use defaults
+            let healthData = JSON.parse(localStorage.getItem('healthData')) || defaultData;
+
+            // Check if it's a new day, if so, reset data
+            if (healthData.lastLogDate !== new Date().toDateString()) {
+                healthData = { ...defaultData, lastLogDate: new Date().toDateString() };
+                saveData();
+            }
+
+            // --- Goals ---
+            const goals = {
+                water: 8, // glasses
+                calories: 2000, // kcal
+                exercise: 30, // minutes
+                sleep: 8 // hours
+            };
+
+            // --- DOM Elements ---
+            const dashboard = {
+                waterIntake: document.getElementById('water-intake'),
+                waterProgress: document.getElementById('water-progress'),
+                caloriesIntake: document.getElementById('calories-intake'),
+                caloriesProgress: document.getElementById('calories-progress'),
+                exerciseMinutes: document.getElementById('exercise-minutes'),
+                exerciseProgress: document.getElementById('exercise-progress'),
+                sleepHours: document.getElementById('sleep-hours'),
+                sleepProgress: document.getElementById('sleep-progress')
+            };
+
+            const forms = {
+                water: document.getElementById('water-form'),
+                meal: document.getElementById('meal-form'),
+                exercise: document.getElementById('exercise-form'),
+                sleep: document.getElementById('sleep-form')
+            };
+
+            // --- Functions ---
+
+            // Save data to localStorage
+            function saveData() {
+                localStorage.setItem('healthData', JSON.stringify(healthData));
+            }
+
+            // Update the dashboard UI
+            function updateDashboard() {
+                // Water
+                dashboard.waterIntake.textContent = healthData.water;
+                dashboard.waterProgress.style.width = `${Math.min((healthData.water / goals.water) * 100, 100)}%`;
+
+                // Calories
+                dashboard.caloriesIntake.textContent = healthData.calories;
+                dashboard.caloriesProgress.style.width = `${Math.min((healthData.calories / goals.calories) * 100, 100)}%`;
+
+                // Exercise
+                dashboard.exerciseMinutes.textContent = healthData.exercise;
+                dashboard.exerciseProgress.style.width = `${Math.min((healthData.exercise / goals.exercise) * 100, 100)}%`;
+
+                // Sleep
+                dashboard.sleepHours.textContent = healthData.sleep;
+                dashboard.sleepProgress.style.width = `${Math.min((healthData.sleep / goals.sleep) * 100, 100)}%`;
+            }
+
+            // --- Event Listeners ---
+
+            // Water Form
+            forms.water.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const amount = parseInt(document.getElementById('water-amount').value);
+                healthData.water += amount;
+                saveData();
+                updateDashboard();
+                forms.water.reset();
+            });
+
+            // Meal Form
+            forms.meal.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const calories = parseInt(document.getElementById('meal-calories').value);
+                healthData.calories += calories;
+                saveData();
+                updateDashboard();
+                forms.meal.reset();
+            });
+
+            // Exercise Form
+            forms.exercise.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const duration = parseInt(document.getElementById('exercise-duration').value);
+                healthData.exercise += duration;
+                saveData();
+                updateDashboard();
+                forms.exercise.reset();
+            });
+
+            // Sleep Form
+            forms.sleep.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const duration = parseFloat(document.getElementById('sleep-duration').value);
+                healthData.sleep = duration; // Sleep is usually logged once per day
+                saveData();
+                updateDashboard();
+                forms.sleep.reset();
+            });
+
+            // --- Initial Load ---
+            updateDashboard();
+        });
+    </script>
+</body>
+</html>
